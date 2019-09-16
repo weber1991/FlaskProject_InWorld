@@ -3,12 +3,6 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 db = SQLAlchemy()
 
-# 中间第三章表，因为不需要用query，所以直接使用table来创建
-tags = db.Table('post_tags',
-db.Column('post_id', db.Integer, db.ForeignKey('post.id')),
-db.Column('tag_id', db.Integer, db.ForeignKey('tag.id'))
-)
-
 class BaseCon(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     title = db.Column(db.String(255))
@@ -46,6 +40,13 @@ class User(db.Model):
 
     def check_password(self, password):
         return check_password_hash(self.password, password)
+
+# 中间第三章表，因为不需要用query，所以直接使用table来创建
+tags = db.Table('post_tags',
+db.Column('post_id', db.Integer, db.ForeignKey('post.id')),
+db.Column('tag_id', db.Integer, db.ForeignKey('tag.id'))
+)
+
 
 class Post(db.Model):
     id = db.Column(db.Integer(), primary_key = True)
